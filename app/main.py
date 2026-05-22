@@ -4,7 +4,7 @@ import json
 from app.odoo_client import OdooClient
 from app.emailer import send_order_email
 
-PROCESSED_ORDERS_FILE = "processed_orders.json"
+PROCESSED_ORDERS_FILE = "../processed_orders.json"
 
 
 def get_order_key(order):
