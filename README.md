@@ -114,27 +114,27 @@ GMAIL_RECIPIENT=test_recipient@gmail.com
 
 # Docker Deployment
 
+# Docker Deployment
+
 ## Build Container
 
 ```bash
 docker compose build
 ```
 
+Builds the Docker image using the project's Dockerfile.
+
 ---
 
 ## Run Service
-
-Foreground:
-
-```bash
-docker compose up
-```
 
 Background mode:
 
 ```bash
 docker compose up -d
 ```
+
+Starts the polling service in detached/background mode.
 
 ---
 
@@ -144,12 +144,69 @@ docker compose up -d
 docker compose logs -f
 ```
 
+Streams live application logs, including:
+- Odoo authentication status
+- matching sales orders
+- Gmail notification activity
+- polling cycle status
+- processing errors
+
+---
+
+## Check Running Containers
+
+```bash
+docker compose ps
+```
+
+Displays the current status of running containers.
+
+---
+
+## Restart Service
+
+```bash
+docker compose restart
+```
+
+Restarts the running polling service container.
+
 ---
 
 ## Stop Service
 
 ```bash
 docker compose down
+```
+
+Stops and removes the running containers.
+
+---
+
+## Rebuild Container After Code Changes
+
+```bash
+docker compose down
+docker compose build --no-cache
+docker compose up -d
+```
+
+Rebuilds the image from scratch after modifying application code or Docker configuration files.
+
+---
+
+## Execute Commands Inside Container
+
+```bash
+docker compose exec ibis-app bash
+```
+
+Opens an interactive shell inside the running container for debugging and inspection.
+
+Example:
+
+```bash
+cat processed_orders.json
 ```
 
 ---

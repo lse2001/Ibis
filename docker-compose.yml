@@ -6,6 +6,9 @@ services:
     env_file:
       - .env
 
+    environment:
+      - PYTHONUNBUFFERED=1
+
     volumes:
       - ./processed_orders.json:/app/processed_orders.json
 

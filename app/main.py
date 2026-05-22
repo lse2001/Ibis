@@ -5,7 +5,7 @@ import time
 from app.odoo_client import OdooClient
 from app.emailer import send_order_email
 
-PROCESSED_ORDERS_FILE = "../processed_orders.json"
+PROCESSED_ORDERS_FILE = "processed_orders.json"
 
 
 def get_order_key(order):
@@ -150,6 +150,13 @@ def main():
     - send Gmail notifications for newly discovered orders
     - record emailed orders in processed_orders.json
       to prevent duplicate notifications
+
+    The polling loop keeps the Python process alive inside
+    the container and checks Odoo every 60 seconds.
+
+    This avoids unnecessary Docker container restarts between
+    polling cycles and allows the service to behave like a
+    persistent long-running background worker.
     """
 
     # authenticate and connect to the Odoo sandbox
@@ -159,17 +166,19 @@ def main():
     if client is None:
         return
 
-    # retrieve and normalize matching sales orders
-    grouped_orders = process_matching_orders(client)
+    while True:
 
+        # retrieve and normalize matching sales orders
+        grouped_orders = process_matching_orders(client)
 
-    # send notifications for newly discovered orders
-    for order in grouped_orders:
+        # send notifications for newly discovered orders
+        for order in grouped_orders:
 
-        send_email_and_record_order(order)
+            send_email_and_record_order(order)
 
-    print("Waiting 60 seconds before next poll...\n")
-    time.sleep(60)
+        print("Waiting 10 seconds before next poll...\n")
+
+        time.sleep(10)
 
 
 if __name__ == "__main__":
