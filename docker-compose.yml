@@ -1,0 +1,12 @@
+services:
+  ibis-app:
+    build: .
+    container_name: ibis-app
+
+    env_file:
+      - .env
+
+    volumes:
+      - ./processed_orders.json:/app/processed_orders.json
+
+    restart: unless-stopped

@@ -1,5 +1,6 @@
 from pathlib import Path
 import json
+import time
 
 from app.odoo_client import OdooClient
 from app.emailer import send_order_email
@@ -166,6 +167,9 @@ def main():
     for order in grouped_orders:
 
         send_email_and_record_order(order)
+
+    print("Waiting 60 seconds before next poll...\n")
+    time.sleep(60)
 
 
 if __name__ == "__main__":

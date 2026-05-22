@@ -1,7 +1,6 @@
 .idea/
 venv/
 __pycache__/
-.obsidian/
 *.pyc
 .DS_Store
 .env
